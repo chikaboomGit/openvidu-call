@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl, NumberDictionary } from '@angular/forms';
+import { FormBuilder, Validators, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
+import { uniqueNamesGenerator, adjectives, colors, animals, NumberDictionary } from 'unique-names-generator';
 
 @Component({
 	selector: 'app-home',
