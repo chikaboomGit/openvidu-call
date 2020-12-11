@@ -31,6 +31,11 @@ export class StreamComponent implements OnInit, OnDestroy {
 	@Output() nicknameClicked = new EventEmitter<any>();
 	@Output() replaceScreenTrackClicked = new EventEmitter<any>();
 	@Output() toggleVideoSizeClicked = new EventEmitter<any>();
+	
+	@Output() kickClicked = new EventEmitter<any>();
+	@Output() togmicClicked = new EventEmitter<any>();
+	@Output() togcamClicked = new EventEmitter<any>();
+	
 
 	@ViewChild('streamComponent', { read: ViewContainerRef }) streamComponent: ViewContainerRef;
 	@ViewChild(MatMenuTrigger) public menuTrigger: MatMenuTrigger;
@@ -100,6 +105,20 @@ export class StreamComponent implements OnInit, OnDestroy {
 
 	toggleSound() {
 		this.mutedSound = !this.mutedSound;
+	}
+
+
+	kickSession() {
+		const element = this.utilsSrv.getHTMLElementByClassName(this.streamComponent.element.nativeElement, LayoutType.ROOT_CLASS);
+		this.kickClicked.emit({ element, connectionId: this._user.getConnectionId() });
+	}
+	togmicSession() {
+		const element = this.utilsSrv.getHTMLElementByClassName(this.streamComponent.element.nativeElement, LayoutType.ROOT_CLASS);
+		this.togmicClicked.emit({ element, connectionId: this._user.getConnectionId() });
+	}
+	togcamSession() {
+		const element = this.utilsSrv.getHTMLElementByClassName(this.streamComponent.element.nativeElement, LayoutType.ROOT_CLASS);
+		this.togcamClicked.emit({ element, connectionId: this._user.getConnectionId() });
 	}
 
 	toggleNicknameForm() {

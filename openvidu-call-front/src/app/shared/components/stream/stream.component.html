@@ -8,7 +8,8 @@
 	<div class="nickname" [class.fullscreen]="isFullscreen">
 		<div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
 			<span id="nickname">{{ this._user.nickname }}</span>
-			<span *ngIf="_user.local || (_user.streamManager && !_user.streamManager?.remote)"> (edit)</span>
+			<span *ngIf="_user.local || (_user.streamManager && !_user.streamManager?.remote)"> (e)</span>
+			<div (click)="kickSession()" style="display: inline;"> <span>ⓧ</span></div> 																	 
 		</div>
 		<div *ngIf="toggleNickname && !this._user.streamManager?.remote" [class.fullscreen]="isFullscreen" id="dialogNickname">
 			<button mat-icon-button (click)="toggleNicknameForm()" id="closeButton">

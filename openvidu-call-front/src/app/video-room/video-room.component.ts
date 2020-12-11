@@ -193,6 +193,19 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		this.openViduWebRTCService.publishScreenAudio(!this.localUsersService.hasScreenAudioActive());
 	}
+	
+	async offCam() {
+		// Disabling webcam
+		if (this.localUsersService.areBothConnected()) {
+			this.openViduWebRTCService.publishWebcamVideo(false);
+			this.localUsersService.disableWebcamUser();
+			this.openViduWebRTCService.unpublishWebcamPublisher();
+			return;
+		}
+		this.openViduWebRTCService.publishWebcamVideo(false);
+	}
+	
+	
 
 	async toggleCam() {
 		const publishVideo = !this.localUsersService.hasWebcamVideoActive();
@@ -296,6 +309,29 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.compact = document.getElementById('room-container')?.offsetWidth <= 790;
 		this.sidenavMode = this.compact ? 'over' : 'side';
 	}
+	
+	onKickClicked(event: {element: HTMLElement; connectionId?: string}){
+		
+		this.session.signal({
+						   data: event.connectionId,
+						   type: 'kick'
+				   });
+		let msg:string = '${event.connectionId} banned by ${this.localUsersService.getWebcamUserName()}';
+		this.chatService.sendMessage(msg);
+    }
+
+   onTogmicClicked(event: {element: HTMLElement; connectionId?: string}){
+		   this.session.signal({
+						   data: event.connectionId,
+						   type: 'togmic'
+				   });
+    }
+   onTogcamClicked(event: {element: HTMLElement; connectionId?: string}){
+		   this.session.signal({
+						   data: event.connectionId,
+						   type: 'togcam'
+				   });
+    }
 
 	onToggleVideoSize(event: { element: HTMLElement; connectionId?: string; resetAll?: boolean }) {
 		const element = event.element;
@@ -496,6 +532,27 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				this.leaveSession();
 			}
 		});
+		this.session.on('signal:kick', (event: any) =>  {
+                const data = event.data;
+                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+                        this.utilsSrv.closeDialog();
+                        this.leaveSession();
+                }
+        });
+        this.session.on('signal:togmic', (event: any) =>  {
+                const data = event.data;
+                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+                        this.toggleMic();
+                }
+        });
+        this.session.on('signal:togcam', (event: any) =>  {
+                const data = event.data;
+                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+                    this.offCam();
+                }
+        });
+
+
 	}
 
 	private initScreenPublisher(): Publisher {
