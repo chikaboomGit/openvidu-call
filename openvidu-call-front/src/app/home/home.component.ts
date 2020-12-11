@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, Validators, FormControl, NumberDictionary } from '@angular/forms';
 import { Router } from '@angular/router';
 import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 
@@ -15,7 +15,8 @@ export class HomeComponent implements OnInit {
 	constructor(private router: Router, public formBuilder: FormBuilder) {}
 
 	ngOnInit() {
-		const randomName = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals], separator: '-', });
+    const numberDictionary = NumberDictionary.generate({ min: 100, max: 999 });
+		const randomName = uniqueNamesGenerator({ dictionaries: [adjectives, colors, animals, numberDictionary], separator: '-', });
 		this.roomForm = new FormControl(randomName, [Validators.minLength(4), Validators.required]);
 	}
 
