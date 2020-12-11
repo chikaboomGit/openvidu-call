@@ -68,6 +68,18 @@
 				<mat-icon *ngIf="mutedSound">volume_off</mat-icon>
 				<span *ngIf="mutedSound">Unmute sound</span>
 			</button>
+			<button mat-menu-item *ngIf="true" id="banButton" (click)="kickSession()">
+				<mat-icon>highlight_off</mat-icon>
+				<span>Ban user</span>
+			</button>
+			<button mat-menu-item *ngIf="true" id="togmicButton" (click)="togmicSession()">
+				<mat-icon>mic</mat-icon>
+				<span>Toggle Mic</span>
+			</button>
+			<button mat-menu-item *ngIf="true" id="togcamButton" (click)="togcamSession()">
+				<mat-icon>videocam_off</mat-icon>
+				<span>Toggle Cam</span>
+			</button>							
 			<button mat-menu-item *ngIf="this._user.streamManager?.stream?.videoActive" id="fullscreenButton" (click)="toggleFullscreen()">
 				<mat-icon>{{ this.fullscreenIcon }}</mat-icon>
 				<span *ngIf="fullscreenIcon === videoFullscreenIconEnum.NORMAL">Exit fullscreen</span>
