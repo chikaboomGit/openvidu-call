@@ -316,7 +316,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 						   data: event.connectionId,
 						   type: 'kick'
 				   });
-		let msg:string = '${event.connectionId} banned by ${this.localUsersService.getWebcamUserName()}';
+    let remoteModel: UserModel = this.remoteUsersService.getRemoteUserByConnectionId(event.connectionId);
+		let msg:string = remoteModel.getNickname() + " banned by " + this.localUsersService.getWebcamUserName();
 		this.chatService.sendMessage(msg);
     }
 
