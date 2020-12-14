@@ -93,7 +93,8 @@ export class OpenViduLayout {
 			const normalOnes: HTMLVideoElement[] = Array.prototype.filter.call(
 				this.layoutContainer.querySelectorAll('#' + id + '>*:not(.' + this.opts.bigClass + ')'),
 				this.filterDisplayNone
-			).filter(x => !smallOnes.includes(x));
+			).filter(x => !smallOnes.includes(x)).sort((A: HTMLVideoElement, B: HTMLVideoElement ): number => {
+				return A.getElementsByTagName('span')[0].textContent.localeCompare(B.getElementsByTagName('span')[0].textContent);
 
 			this.attachElements(bigOnes, normalOnes, smallOnes);
 		}, 50);
