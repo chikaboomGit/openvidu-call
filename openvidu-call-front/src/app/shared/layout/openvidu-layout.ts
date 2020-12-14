@@ -95,6 +95,7 @@ export class OpenViduLayout {
 				this.filterDisplayNone
 			).filter(x => !smallOnes.includes(x)).sort((A: HTMLVideoElement, B: HTMLVideoElement ): number => {
 				return A.getElementsByTagName('span')[0].textContent.localeCompare(B.getElementsByTagName('span')[0].textContent);
+      });
 
 			this.attachElements(bigOnes, normalOnes, smallOnes);
 		}, 50);
