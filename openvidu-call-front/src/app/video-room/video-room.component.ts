@@ -202,7 +202,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			this.openViduWebRTCService.unpublishWebcamPublisher();
 			return;
 		}
-		this.openViduWebRTCService.publishWebcamVideo(false);
+    if (this.localUsersService.hasWebcamVideoActive()){
+		  this.openViduWebRTCService.publishWebcamVideo(false);
+    }
+    this.oVLayout.update();
 	}
 	
 	
@@ -215,6 +218,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			this.openViduWebRTCService.publishWebcamVideo(publishVideo);
 			this.localUsersService.disableWebcamUser();
 			this.openViduWebRTCService.unpublishWebcamPublisher();
+      this.oVLayout.update();
 			return;
 		}
 		// Enabling webcam
@@ -231,6 +235,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		// Muting/unmuting webcam
 		this.openViduWebRTCService.publishWebcamVideo(publishVideo);
+    this.oVLayout.update();
 	}
 
 	async toggleScreenShare() {
