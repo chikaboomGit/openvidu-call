@@ -240,7 +240,25 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
 	joinSession() {
 		if (this.nicknameFormControl.valid) {
+      let testnick: string;
+      testnick = this.localUsersService.getWebcamUserName();
 			this.avatarService.setFinalAvatar(this.avatarSelected);
+      
+      // cam off 99_ or 배석 then offcam
+      if (testnick.includes('99_') || testnick.includes('배석')){
+        if ( this.isVideoActive ){
+          this.toggleCam();
+		    }
+      }
+      
+      //mic off default
+      // ecept 00_
+      if (!testnick.includes('00_')){
+        if (this.isAudioActive ){
+          this.toggleMic();
+        }
+      }
+      
 			return this.join.emit();
 		}
 		this.scrollToBottom();
@@ -338,7 +356,13 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 			if (this.oVDevicesService.areEmptyLabels()) {
 				await this.oVDevicesService.initDevices();
 				if (this.hasAudioDevices) {
-					const audioLabel = publisher?.stream?.getMediaStream()?.getAudioTracks()[0]?.label;
+					const audioLabel = publisher?.stream?.getMediaStream()?.getAudioTracks()[0]?.label;          
+          // Jabra auto select
+          publisher?.stream?.getMediaStream()?.mediaStream?.getAudioTracks().forEach((track) => {
+            if (track.label.includes("Jabra")){
+              audioLabel = track.label;
+            }
+          });
 					this.oVDevicesService.setMicSelected(audioLabel);
 				}
 
