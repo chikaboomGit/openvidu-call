@@ -358,7 +358,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 				if (this.hasAudioDevices) {
 					const audioLabel = publisher?.stream?.getMediaStream()?.getAudioTracks()[0]?.label;          
           // Jabra auto select
-          publisher?.stream?.getMediaStream()?.mediaStream?.getAudioTracks().forEach((track) => {
+          publisher?.stream?.getMediaStream()?.getAudioTracks().forEach((track) => {
             if (track.label.includes("Jabra")){
               audioLabel = track.label;
             }
