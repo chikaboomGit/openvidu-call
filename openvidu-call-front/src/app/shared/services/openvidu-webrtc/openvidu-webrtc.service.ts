@@ -118,7 +118,7 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 
 	initPublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
 		properties.resolution="320x240";
-		properties.frameRate=20;
+		properties.frameRate=18;
 		properties.mirror=false;
 		this.log.d('Initializing publisher with properties: ', properties);
 
@@ -132,7 +132,7 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 
 	async initPublisherAsync(targetElement: string | HTMLElement, properties: PublisherProperties): Promise<Publisher> {
 		properties.resolution="320x240";
-		properties.frameRate=20;
+		properties.frameRate=18;
 		properties.mirror=false;
 		this.log.d('Initializing publisher with properties: ', properties);
 
