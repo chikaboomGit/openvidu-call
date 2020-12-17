@@ -170,7 +170,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		if (this.utilsSrv.isFirefox() && !this.localUsersService.hasWebcamVideoActive()) {
 			this.openViduWebRTCService.publishWebcamVideo(true);
 			this.openViduWebRTCService.publishWebcamVideo(false);
-		}
+		}    
+    this.subscribeToSpeechhl();
 	}
 
 	leaveSession() {
@@ -508,6 +509,33 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			}
 		});
 	}
+        
+  private subscribeToSpeechhl() {
+    this.log.d('Subscribe to speech highlight', this.session);
+    // Has been mandatory change the user zoom property here because of
+    // zoom icons and cannot handle publisherStartSpeaking event in other component
+    this.session.on('publisherStartSpeaking', (event: PublisherSpeakingEvent) => {
+      const someoneIsSharingScreen = this.remoteUsersService.someoneIsSharingScreen();
+      if (!this.localUsersService.isScreenShareEnabled() && !someoneIsSharingScreen) {
+        const elem = event.connection.stream.streamManager.videos[0].video;
+        const element = this.utilsSrv.getHTMLElementByClassName(elem, LayoutType.ROOT_CLASS);
+        this.resetAllHlElements();
+        element.classList.add('OT_borderhl');
+      }
+    });
+  }
+
+  removehlElementClass(element: HTMLElement | Element) {
+    element?.classList.remove('OT_borderhl');
+    element?.classList.add('OT_borderzero');
+  }
+
+  resetAllHlElements() {
+    const elements: HTMLCollectionOf<Element> = document.getElementsByClassName('OT_borderhl');
+    while (elements.length > 0) {
+      this.removehlElementClass(elements[0]);
+    }
+  }
 
 	private removeScreen() {
 		this.localUsersService.disableScreenUser();
