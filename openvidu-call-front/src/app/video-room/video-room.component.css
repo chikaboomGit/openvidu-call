@@ -80,11 +80,19 @@
   color: #ffffff;
   margin: 0;
   padding: 0;
-  border: 0;
+  /* border: 0; */
   font-size: 100%;
   font-family: 'Ubuntu', sans-serif;
   vertical-align: baseline;
   transition: all .1s linear;
+}
+
+.OT_borderzero {
+  border: 0;  
+}
+
+.OT_borderhl {
+  border: 1px dotted red;
 }
 
 .OT_dialog-centering {
