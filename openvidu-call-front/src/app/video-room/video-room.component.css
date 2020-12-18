@@ -91,10 +91,10 @@
   border: 1px solid #ffb6c1;  
 }
 
-@-webkit-keyframes blinkborder { 50% { border-color: #494949; box-shadow: 1px 1px 10px 2px #500;}  }
+@-webkit-keyframes blinkborder { 50% { border-color: #494949; box-shadow: 1px 1px 10px 2px #300;}  }
 .OT_borderhl {
   border: 1px dotted #ffb6c1;
-  box-shadow: 1px 1px 10px 2px #300;
+  box-shadow: 1px 1px 10px 2px #500;
   -webkit-animation: blinkborder 1s step-end infinite alternate;
 }
 
