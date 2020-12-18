@@ -94,7 +94,7 @@
 @-webkit-keyframes blinkborder { 50% { border-color: #494949; }  }
 .OT_borderhl {
   border: 1px dotted #ffb6c1;
-  -webkit-animation: blink 1s step-end infinite alternate;
+  -webkit-animation: blinkborder 1s step-end infinite alternate;
 }
 
 .OT_dialog-centering {
