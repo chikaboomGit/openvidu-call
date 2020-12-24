@@ -258,6 +258,15 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
           this.toggleMic();
         }
       }
+      // jabra 설정을 추가로 저장
+      if ( this.micSelected.includes('Jabra') ){
+        //jabra가 설정된 경우 
+        this.storageSrv.set('MicJabraFlag','Y');
+      }
+      else {
+        //jabra 아닌경우 
+        this.storageSrv.set('MicJabraFlag','N');
+      }
       
 			return this.join.emit();
 		}
@@ -367,10 +376,9 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
             }
           });
 					this.oVDevicesService.setMicSelected(audioLabel);
-          this.micSelected = this.oVDevicesService.getMicSelected();
           
           const jabrayn = this.storageSrv.get('MicJabraFlag');
-          if( jabrayn == 'Y' && !audioLabel.includes('Jabra')){
+          if( jabrayn === 'Y' && !audioLabel.includes('Jabra')){
             this.utilsSrv.showErrorMessage('마이크 설정 경고','마지막 회의 참여시 Jabra SPEAKER가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
           }
 				}
