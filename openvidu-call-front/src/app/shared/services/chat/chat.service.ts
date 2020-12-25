@@ -27,7 +27,7 @@ export class ChatService {
 	private chatOpened: boolean;
 	private messagesUnread = 0;
 	private log: ILogger;
-  private cmdMode: boolean;
+  private cmdMode = false;
 
 	private _messagesUnread = <BehaviorSubject<number>>new BehaviorSubject(0);
 
@@ -47,6 +47,10 @@ export class ChatService {
 	setChatComponent(chatSidenav: MatSidenav) {
 		this.chatComponent = chatSidenav;
 	}
+  
+  setcmdMode() {
+    this.cmdMode = true;
+  }
 
 	subscribeToChat() {
 		const session = this.openViduWebRTCService.getWebcamSession();
@@ -72,16 +76,21 @@ export class ChatService {
 
 	sendMessage(message: string) {
 		message = message.replace(/ +(?= )/g, '');
+    let signalType : string;
+    signalType = 'chat';
 		if (message !== '' && message !== ' ') {
-			const data = {
-				message: message,
-				nickname: this.localUsersService.getWebcamUserName()
-			};
-			const sessionAvailable = this.openViduWebRTCService.getSessionOfUserConnected();
-			sessionAvailable.signal({
-				data: JSON.stringify(data),
-				type: 'chat'
-			});
+      if ( this.cmdMode && message.indexOf('~') == 0){        
+        signalType = 'cmd'
+      }
+      const data = {
+        message: message,
+        nickname: this.localUsersService.getWebcamUserName()
+      };
+      const sessionAvailable = this.openViduWebRTCService.getSessionOfUserConnected();
+      sessionAvailable.signal({
+        data: JSON.stringify(data),
+        type: signalType
+      });
 		}
 	}
 
