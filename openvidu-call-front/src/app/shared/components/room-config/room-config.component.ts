@@ -365,22 +365,8 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 			if (this.oVDevicesService.areEmptyLabels()) {
 				await this.oVDevicesService.initDevices();
 				if (this.hasAudioDevices) {
-          let audioLabel : string;
-					audioLabel = publisher?.stream?.getMediaStream()?.getAudioTracks()[0]?.label;
-          // Jabra auto select          
-          
-          publisher?.stream?.getMediaStream()?.getAudioTracks().forEach((track) => {
-            if (track.label.includes("Jabra")){
-              audioLabel = track.label;
-              // await this.openViduWebRTCService.replaceTrack(null, audioLabel, false);
-            }
-          });
+					const audioLabel = publisher?.stream?.getMediaStream()?.getAudioTracks()[0]?.label;
 					this.oVDevicesService.setMicSelected(audioLabel);
-          
-          const jabrayn = this.storageSrv.get('MicJabraFlag');
-          if( jabrayn === 'Y' && !audioLabel.includes('Jabra')){
-            this.utilsSrv.showErrorMessage('마이크 설정 경고','마지막 회의 참여시 Jabra SPEAKER가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
-          }
 				}
 
 				if (this.hasVideoDevices) {
