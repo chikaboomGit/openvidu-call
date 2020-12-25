@@ -101,18 +101,16 @@ export class DevicesService {
 			this.log.e('No audio devices found!');
 			return;
 		}
+    for (let i=0 ; i< this.microphones.length ; i++){
+			if (this.microphones[i].label.includes('Jabra')){
+				return this.microphones[i];
+			}
+		}
 		const storageDevice = this.getMicFromStogare();
 		if (storageDevice) {
 			return storageDevice;
-		}
-		let jabraIndex = 0;
-		for (let i=0 ; i< this.microphones.length ; i++){
-			if (this.microphones[i].label.includes('Jabra')){
-				jabraIndex = i;
-				break;
-			}
-		}
-		return this.micSelected || this.microphones[jabraIndex];
+		}		
+		return this.micSelected || this.microphones[0];
 	}
 
 	private getMicFromStogare(): IDevice {
