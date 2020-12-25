@@ -27,6 +27,7 @@ export class ChatService {
 	private chatOpened: boolean;
 	private messagesUnread = 0;
 	private log: ILogger;
+  private cmdMode: boolean;
 
 	private _messagesUnread = <BehaviorSubject<number>>new BehaviorSubject(0);
 
