@@ -585,14 +585,14 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.session.on('signal:togcam', (event: any) =>  {
       const data = event.data;
       if (this.openViduWebRTCService.isMyOwnConnection(data)) {
-          await this.offCam();
+          this.offCam();
       }
     });
     this.session.on('signal:cmd', (event: any) =>  {
       const connectionId = event.from.connectionId;
       const data = JSON.parse(event.data);
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
-      if (data.message.indexOf('~rename ') = 0){
+      if (data.message.indexOf('~rename ') == 0){
         let needcmd = data.message.split(' ',3);
         if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
           this.onNicknameUpdate(needcmd[2]);
