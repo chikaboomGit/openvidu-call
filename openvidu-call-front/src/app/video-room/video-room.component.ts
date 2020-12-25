@@ -162,7 +162,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.subscribeToStreamPropertyChange();
 		this.subscribeToNicknameChanged();
 		this.chatService.setChatComponent(this.chatSidenav);
-		this.chatService.subscribeToChat();
+    if (this.localUsersService.getWebcamUserName().includes('모니터')){
+    	this.chatService.setcmdMode();
+    }
+		this.chatService.subscribeToChat();    
 		this.subscribeToChatComponent();
 		this.subscribeToReconnection();
 		await this.connectToSession();
@@ -567,27 +570,36 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			}
 		});
 		this.session.on('signal:kick', (event: any) =>  {
-                const data = event.data;
-                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
-                        this.utilsSrv.closeDialog();
-                        this.leaveSession();
-                }
-        });
-        this.session.on('signal:togmic', (event: any) =>  {
-                const data = event.data;
-                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
-                        this.toggleMic();
-                }
-        });
-        this.session.on('signal:togcam', (event: any) =>  {
-                const data = event.data;
-                if (this.openViduWebRTCService.isMyOwnConnection(data)) {
-                    this.offCam();
-                }
-        });
-
-
-	}
+      const data = event.data;
+      if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+              this.utilsSrv.closeDialog();
+              this.leaveSession();
+      }
+    });
+    this.session.on('signal:togmic', (event: any) =>  {
+      const data = event.data;
+      if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+              this.toggleMic();
+      }
+    });
+    this.session.on('signal:togcam', (event: any) =>  {
+      const data = event.data;
+      if (this.openViduWebRTCService.isMyOwnConnection(data)) {
+          await this.offCam();
+      }
+    });
+    this.session.on('signal:cmd', (event: any) =>  {
+      const connectionId = event.from.connectionId;
+      const data = JSON.parse(event.data);
+      const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
+      if (data.message.indexOf('~rename ') = 0){
+        let needcmd = data.message.split(' ',3);
+        if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
+          this.onNicknameUpdate(needcmd[2]);
+        }
+      }
+    });
+  }
 
 	private initScreenPublisher(): Publisher {
 		const videoSource = ScreenType.SCREEN;
