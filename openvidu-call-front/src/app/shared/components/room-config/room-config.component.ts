@@ -372,7 +372,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
           publisher?.stream?.getMediaStream()?.getAudioTracks().forEach((track) => {
             if (track.label.includes("Jabra")){
               audioLabel = track.label;
-              await this.openViduWebRTCService.replaceTrack(null, audioLabel, false);
+              // await this.openViduWebRTCService.replaceTrack(null, audioLabel, false);
             }
           });
 					this.oVDevicesService.setMicSelected(audioLabel);
