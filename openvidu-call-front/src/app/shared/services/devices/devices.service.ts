@@ -105,7 +105,14 @@ export class DevicesService {
 		if (storageDevice) {
 			return storageDevice;
 		}
-		return this.micSelected || this.microphones[0];
+		let jabraIndex = 0;
+		for (let i=0 ; i< this.microphones.length ; i++){
+			if (this.microphones[i].label.includes('Jabra')){
+				jabraIndex = i;
+				break;
+			}
+		}
+		return this.micSelected || this.microphones[jabraIndex];
 	}
 
 	private getMicFromStogare(): IDevice {
