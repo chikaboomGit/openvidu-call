@@ -95,7 +95,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 			await this.initwebcamPublisher();
       const jabrayn = this.storageSrv.get('MicJabraFlag');
       if( jabrayn === 'Y' && !this.micSelected.label.includes('Jabra') ){
-        this.utilsSrv.showErrorMessage('마이크 설정 경고','최근 회의 참여시 Jabra SPEAKER가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
+        alert('최근 회의 참여시 Jabra SPEAK가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
       }
 		} else {
 			// Emit publisher to webcomponent and angular-library
