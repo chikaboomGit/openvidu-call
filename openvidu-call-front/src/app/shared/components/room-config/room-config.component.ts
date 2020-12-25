@@ -259,7 +259,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
         }
       }
       // jabra 설정을 추가로 저장
-      if ( this.micSelected.lebel.includes('Jabra') ){
+      if ( this.micSelected.label.includes('Jabra') ){
         //jabra가 설정된 경우 
         this.storageSrv.set('MicJabraFlag','Y');
       }
