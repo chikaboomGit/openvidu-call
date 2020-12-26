@@ -598,6 +598,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           this.onNicknameUpdate(needcmd[2]);
         }
       }
+      if (data.message.indexOf('~reconnect ') == 0){
+        let needcmd = data.message.split(' ',2);
+        if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
+          window.location.reload();
+        }
+      }
     });
   }
 
