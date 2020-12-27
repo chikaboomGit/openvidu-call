@@ -526,6 +526,14 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         element.classList.add('OT_borderhl');
       }
     });
+    this.session.on('publisherStopSpeaking', (event: PublisherSpeakingEvent) => {
+      const someoneIsSharingScreen = this.remoteUsersService.someoneIsSharingScreen();
+      if (!this.localUsersService.isScreenShareEnabled() && !someoneIsSharingScreen) {
+        const elem = event.connection.stream.streamManager.videos[0].video;
+        const element = this.utilsSrv.getHTMLElementByClassName(elem, LayoutType.ROOT_CLASS);
+		    removehlElementClass(element);
+      }
+    });
   }
 
   removehlElementClass(element: HTMLElement | Element) {
