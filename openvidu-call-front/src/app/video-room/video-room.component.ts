@@ -531,7 +531,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       if (!this.localUsersService.isScreenShareEnabled() && !someoneIsSharingScreen) {
         const elem = event.connection.stream.streamManager.videos[0].video;
         const element = this.utilsSrv.getHTMLElementByClassName(elem, LayoutType.ROOT_CLASS);
-		    removehlElementClass(element);
+		    this.removehlElementClass(element);
       }
     });
   }
