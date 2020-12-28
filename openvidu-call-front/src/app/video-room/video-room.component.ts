@@ -601,7 +601,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       const data = JSON.parse(event.data);
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
       if (data.message.indexOf('~rename ') == 0){
-		let needcmd ={"","",""}; 
+		let needcmd =["","",""]; 
 		if( data.message.includes('"'){
 			let tmpneedcmd = data.message.split(/"/,4);
 			needcmd[1] = tmpneedcmd[1];
