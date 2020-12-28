@@ -602,12 +602,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
       if (data.message.indexOf('~rename ') == 0){
 		let needcmd =["","",""]; 
-		if( data.message.includes('\"'){
+		if( data.message.includes('\"')){
 			let tmpneedcmd = data.message.split(/"/,4);
 			needcmd[1] = tmpneedcmd[1];
 			needcmd[2] = tmpneedcmd[3];
 		}
-		else if( data.message.includes("\'"){
+		else if( data.message.includes("\'")){
 			let tmpneedcmd = data.message.split(/'/,4);
 			needcmd[1] = tmpneedcmd[1];
 			needcmd[2] = tmpneedcmd[3];
