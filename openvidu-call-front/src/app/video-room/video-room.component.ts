@@ -101,6 +101,15 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.oVLayout.update();
 		this.checkSizeComponent();
 	}
+	
+	@HostListener('document:keyup', ['$event'])
+	handleKeyboardEvent(event: KeyboardEvent) {
+	  console.log(event);
+	  let x = event.keyCode;
+	  if (x === 0x41) {
+		  this.toggleMic();
+	  }
+	}
 
 	async ngOnInit() {
 		this.localUsersService.initialize();
