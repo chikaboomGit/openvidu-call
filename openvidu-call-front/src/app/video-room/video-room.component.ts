@@ -600,34 +600,40 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       const connectionId = event.from.connectionId;
       const data = JSON.parse(event.data);
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
-      if (data.message.indexOf('~rename ') == 0){
-		let needcmd =["","",""]; 
+	  
+	  
+	  if (data.message.indexOf('~') == 0){
+		let needcmd =["",""]; 
 		if( data.message.includes('\"')){
-			let tmpneedcmd = data.message.split(/"/,4);
-			needcmd[1] = tmpneedcmd[1];
-			needcmd[2] = tmpneedcmd[3];
+			let tmpneedcmd = data.message.split(/"/);
+			needcmd[0] = tmpneedcmd[1];
+			needcmd[1] = tmpneedcmd[3];
 		}
 		else if( data.message.includes("\'")){
-			let tmpneedcmd = data.message.split(/'/,4);
-			needcmd[1] = tmpneedcmd[1];
-			needcmd[2] = tmpneedcmd[3];
+			let tmpneedcmd = data.message.split(/'/);
+			needcmd[0] = tmpneedcmd[1];
+			needcmd[1] = tmpneedcmd[3];
 		}
 		else{
-			let tmpneedcmd = data.message.split(/ /,3);
-			needcmd[1] = tmpneedcmd[1];
-			needcmd[2] = tmpneedcmd[2];
+			let tmpneedcmd = data.message.split(/ /);
+			needcmd[0] = tmpneedcmd[1];
+			needcmd[1] = tmpneedcmd[2];
 		}
-        if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
-          this.onNicknameUpdate(needcmd[2]);
-        }
-      }
-      if (data.message.indexOf('~reconnect ') == 0){
-        let needcmd = data.message.split(' ',2);
-        if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
-			this.storageSrv.set("fastReconnect","Y");
-			window.location.reload();
-        }
-      }
+		
+		if (data.message.indexOf('~rename ') == 0){
+			if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+			  this.onNicknameUpdate(needcmd[1]);
+			}
+		}
+		if (data.message.indexOf('~reconnect ') == 0){
+			if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+				if (needcmd[1] === 'fast'){
+					this.storageSrv.set("fastReconnect","Y");
+				}
+				window.location.reload();
+			}
+		}
+	  }
     });
   }
 
