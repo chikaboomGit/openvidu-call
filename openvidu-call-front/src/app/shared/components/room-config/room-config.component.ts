@@ -93,10 +93,16 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 		this.setDevicesInfo();
 		if (this.hasAudioDevices || this.hasVideoDevices) {
 			await this.initwebcamPublisher();
-      const jabrayn = this.storageSrv.get('MicJabraFlag');
-      if( jabrayn === 'Y' && !this.micSelected.label.includes('Jabra') ){
-        alert('최근 회의 참여시 Jabra SPEAK가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
-      }
+			const jabrayn = this.storageSrv.get('MicJabraFlag');
+			if( jabrayn === 'Y' && !this.micSelected.label.includes('Jabra') ){
+				alert('최근 회의 참여시 Jabra SPEAK가 이용되었으나 지금은 연결되어 있지 않습니다. 장치를 다시 연결하고 F5키를 눌러주세요.');
+				
+				const fastreconnetflag = this.storageSrv.get('fastReconnect');
+				if ( fastreconnetflag === 'Y'){
+					this.storageSrv.set("fastReconnect","N");
+					this.joinSession();
+				}
+			}
 		} else {
 			// Emit publisher to webcomponent and angular-library
 			this.emitPublisher(null);

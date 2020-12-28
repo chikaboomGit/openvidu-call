@@ -601,7 +601,22 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       const data = JSON.parse(event.data);
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
       if (data.message.indexOf('~rename ') == 0){
-        let needcmd = data.message.split(' ',3);
+		let needcmd ={"","",""}; 
+		if( data.message.includes('"'){
+			let tmpneedcmd = data.message.split(/"/,4);
+			needcmd[1] = tmpneedcmd[1];
+			needcmd[2] = tmpneedcmd[3];
+		}
+		else if( data.message.includes("'"){
+			let tmpneedcmd = data.message.split(/'/,4);
+			needcmd[1] = tmpneedcmd[1];
+			needcmd[2] = tmpneedcmd[3];
+		}
+		else{
+			let tmpneedcmd = data.message.split(/ /,3);
+			needcmd[1] = tmpneedcmd[1];
+			needcmd[2] = tmpneedcmd[2];
+		}
         if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
           this.onNicknameUpdate(needcmd[2]);
         }
@@ -609,7 +624,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       if (data.message.indexOf('~reconnect ') == 0){
         let needcmd = data.message.split(' ',2);
         if ( needcmd[1] == this.localUsersService.getWebcamUserName() ){
-          window.location.reload();
+			this.storageSrv.set("fastReconnect","Y");
+			window.location.reload();
         }
       }
     });
