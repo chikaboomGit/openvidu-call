@@ -106,11 +106,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 	handleKeyboardEvent(event: KeyboardEvent) {
 	  console.log(event);
 	  let x = event.keyCode;
-	  if (x === 0x41) {
-		  this.toggleMic();
-	  }
-	  else if (x ==0x2F) {
-		  this.toggleCam();
+	  if ( !event.srcElement.id.includes("chatInput")){ 
+		  if (x == 32) {
+			  this.toggleMic();
+		  }
+		  else if (x == 86) {
+			  this.toggleCam();
+		  }
 	  }
 	}
 
