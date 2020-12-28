@@ -109,6 +109,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 	  if (x === 0x41) {
 		  this.toggleMic();
 	  }
+	  else if (x ==0x2F) {
+		  this.toggleCam();
+	  }
 	}
 
 	async ngOnInit() {
