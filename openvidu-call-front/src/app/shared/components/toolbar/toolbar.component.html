@@ -19,8 +19,8 @@
 				[disabled]="isConnectionLost"
 				*ngIf="hasAudioDevices && (ovSettings | hasAudio)"
 			>
-				<mat-icon *ngIf="isWebcamAudioEnabled" matTooltip="Mute your audio">mic</mat-icon>
-				<mat-icon *ngIf="!isWebcamAudioEnabled" color="warn" matTooltip="Unmute your audio">mic_off</mat-icon>
+				<mat-icon *ngIf="isWebcamAudioEnabled" matTooltip="Mute your audio [단축키:Space]">mic</mat-icon>
+				<mat-icon *ngIf="!isWebcamAudioEnabled" color="warn" matTooltip="Unmute your audio [단축키:Space]">mic_off</mat-icon>
 			</button>
 
 			<!-- Camera button -->
@@ -31,8 +31,8 @@
 				[disabled]="isConnectionLost"
 				*ngIf="!this.ovSettings || (hasVideoDevices && (this.ovSettings | hasVideo))"
 			>
-				<mat-icon *ngIf="isWebcamVideoEnabled" matTooltip="Mute your cam">videocam</mat-icon>
-				<mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Unmute your cam">videocam_off</mat-icon>
+				<mat-icon *ngIf="isWebcamVideoEnabled" matTooltip="Mute your cam [단축키:V]">videocam</mat-icon>
+				<mat-icon *ngIf="!isWebcamVideoEnabled" color="warn" matTooltip="Unmute your cam [단축키:V]">videocam_off</mat-icon>
 			</button>
 
 			<!-- Screenshare button -->
