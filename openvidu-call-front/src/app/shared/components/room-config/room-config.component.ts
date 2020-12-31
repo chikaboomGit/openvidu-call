@@ -47,6 +47,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 	isVideoActive = true;
 	isAudioActive = true;
 	screenShareEnabled: boolean;
+  resolrutionProperties : string;
 	localUsers: UserModel[] = [];
 	openviduAvatar: string;
 	capturedAvatar: string;
