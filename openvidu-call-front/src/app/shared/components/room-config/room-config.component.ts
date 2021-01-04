@@ -47,7 +47,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 	isVideoActive = true;
 	isAudioActive = true;
 	screenShareEnabled: boolean;
-  resolrutionProperties : string;
+  resolrutionProperties : string[];
 	localUsers: UserModel[] = [];
 	openviduAvatar: string;
 	capturedAvatar: string;
@@ -255,14 +255,14 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       let testnick: string;
       testnick = this.localUsersService.getWebcamUserName();
 			this.avatarService.setFinalAvatar(this.avatarSelected);
-      
+
       // cam off 99_ or 배석 then offcam
       if (testnick.includes('99_') || testnick.includes('배석')){
         if ( this.isVideoActive ){
           this.toggleCam();
 		    }
       }
-      
+
       //mic off default
       // ecept 00_
       if (!(testnick.includes('00_') || testnick.includes('2층_민원') || testnick.includes('9층_회의실')) ){
@@ -272,14 +272,14 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
       }
       // jabra 설정을 추가로 저장
       if ( this.micSelected.label.includes('Jabra') ){
-        //jabra가 설정된 경우 
+        //jabra가 설정된 경우
         this.storageSrv.set('MicJabraFlag','Y');
       }
       else {
-        //jabra 아닌경우 
+        //jabra 아닌경우
         this.storageSrv.set('MicJabraFlag','N');
       }
-      
+
 			return this.join.emit();
 		}
 		this.scrollToBottom();
@@ -301,6 +301,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 		this.cameras = this.oVDevicesService.getCameras();
 		this.camSelected = this.oVDevicesService.getCamSelected();
 		this.micSelected = this.oVDevicesService.getMicSelected();
+		this.resolrutionProperties = ["320x240","640x480"];
 	}
 
 	private setSessionName() {

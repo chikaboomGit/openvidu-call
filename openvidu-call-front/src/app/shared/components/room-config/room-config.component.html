@@ -156,6 +156,31 @@
 								</div>
 							</div>
 
+							<!-- Devices section / Camera resolrutionProperties-->
+							<div fxLayout="row" fxFill id="devicesSection" *ngIf="hasVideoDevices && (ovSettings | hasVideo)">
+								<div fxLayout fxFlex>
+									<div class="one" fxFlex="20" fxLayoutAlign="center center">
+										<button mat-mini-fab class="deviceButton" id="configCardCameraButton">
+											<mat-icon *ngIf="isVideoActive" matTooltip="Camera Enabled">videocam</mat-icon>
+											<mat-icon *ngIf="!isVideoActive" color="warn" matTooltip="Camera Disabled">videocam_off</mat-icon>
+										</button>
+									</div>
+									<div class="two" fxFlex="80" fxLayoutAlign="center center">
+										<mat-form-field class="alternate-theme">
+											<mat-select
+												placeholder="Camera res Options"
+												[ngModel]="isVideoActive && camSelected ? res : 'None'"
+												(selectionChange)="onCameraResSelected($event)"
+											>
+												<mat-option *ngFor="let res of resolrutionProperties" [value]="res">
+													{{ camera.label }}
+												</mat-option>
+											</mat-select>
+										</mat-form-field>
+									</div>
+								</div>
+							</div>
+
 							<!-- Devices section / ScreenShare-->
 							<div fxLayout="row" fxFill id="devicesSection" *ngIf="ovSettings | hasScreenSharing">
 								<div fxLayout fxFlex>
