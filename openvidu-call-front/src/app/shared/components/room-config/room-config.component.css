@@ -1078,7 +1078,7 @@ mat-card {
   .modal-body {
     padding: 10px 20px;
     overflow: auto;
-    height: calc(100% - 120px);
+    height: calc(100% - 150px);
 
     overflow:-moz-scrollbars-vertical;
     overflow-x:hidden;
