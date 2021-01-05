@@ -148,7 +148,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 		if (!!resSource) {
 			if(this.openViduWebRTCService.getresolution() !== resSource){
 				this.openViduWebRTCService.setresolution(resSource);
-				const videoSource = this.camSelected.?device;
+				const videoSource = this.camSelected?.device;
 				const mirror = this.oVDevicesService.cameraNeedsMirror(videoSource);
 				await this.openViduWebRTCService.replaceTrack(videoSource, null, mirror);
 				this.oVDevicesService.setCamSelected(videoSource);
