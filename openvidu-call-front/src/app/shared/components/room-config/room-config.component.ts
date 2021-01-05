@@ -143,6 +143,23 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 		this.isVideoActive = false;
 	}
 
+	async onCameraResSelected(event: any) {
+		const resSource = event?.value;
+		if (!!resSource) {
+			if(this.openViduWebRTCService.getresolution() !== resSource){
+				this.openViduWebRTCService.setresolution(resSource);
+				const mirror = this.oVDevicesService.cameraNeedsMirror(videoSource);
+				await this.openViduWebRTCService.replaceTrack(videoSource, null, mirror);
+				this.oVDevicesService.setCamSelected(videoSource);
+				this.camSelected = this.oVDevicesService.getCamSelected();
+				// Publish Webcam
+				this.openViduWebRTCService.publishWebcamVideo(true);
+				this.isVideoActive = true;
+				return;
+			}
+		}
+	}
+
 	async onMicrophoneSelected(event: any) {
 		const audioSource = event?.value;
 

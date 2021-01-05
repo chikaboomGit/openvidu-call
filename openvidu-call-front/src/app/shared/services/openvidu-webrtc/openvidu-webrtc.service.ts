@@ -27,6 +27,9 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 
 	private log: ILogger;
 
+	// "320x240"`, `"640x480"`, `"1280x720"
+	private resolutionSetted: string;
+
 	constructor(private loggerSrv: LoggerService, private localUsersSrv: LocalUsersService) {
 		this.log = this.loggerSrv.get('OpenViduWebRTCService');
 	}
@@ -38,6 +41,7 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 			this.OV.enableProdMode();
 			this.OVScreen.enableProdMode();
 		}
+		this.resolutionSetted = "320x240"
 	}
 
 	initSessions() {
@@ -117,8 +121,8 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 	}
 
 	initPublisher(targetElement: string | HTMLElement, properties: PublisherProperties): Publisher {
-		properties.resolution="320x240";
-		properties.frameRate=18;
+		properties.resolution=this.resolutionSetted;
+		properties.frameRate=15;
 		properties.mirror=false;
 		this.log.d('Initializing publisher with properties: ', properties);
 
@@ -131,8 +135,8 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 	}
 
 	async initPublisherAsync(targetElement: string | HTMLElement, properties: PublisherProperties): Promise<Publisher> {
-		properties.resolution="320x240";
-		properties.frameRate=18;
+		properties.resolution=this.resolutionSetted;
+		properties.frameRate=15;
 		properties.mirror=false;
 		this.log.d('Initializing publisher with properties: ', properties);
 
@@ -338,6 +342,13 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 		return (
 			this.webcamSession?.connection?.connectionId === connectionId || this.screenSession?.connection?.connectionId === connectionId
 		);
+	}
+
+	setresolution(data: string): void {
+		this.resolutionSetted = data;
+	}
+	getresolution(): string{
+		return this.resolutionSetted;
 	}
 
 	getSessionOfUserConnected(): Session {

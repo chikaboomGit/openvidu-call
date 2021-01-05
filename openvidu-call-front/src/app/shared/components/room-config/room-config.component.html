@@ -169,11 +169,11 @@
 										<mat-form-field class="alternate-theme">
 											<mat-select
 												placeholder="Camera res Options"
-												[ngModel]="isVideoActive && camSelected ? res : 'None'"
+												[ngModel]="isVideoActive && camSelected ? openViduWebRTCService.getresolution() : 'None'"
 												(selectionChange)="onCameraResSelected($event)"
 											>
 												<mat-option *ngFor="let res of resolrutionProperties" [value]="res">
-													{{ camera.label }}
+													{{ res }}
 												</mat-option>
 											</mat-select>
 										</mat-form-field>
