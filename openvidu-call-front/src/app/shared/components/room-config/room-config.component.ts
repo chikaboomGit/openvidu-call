@@ -318,7 +318,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 		this.cameras = this.oVDevicesService.getCameras();
 		this.camSelected = this.oVDevicesService.getCamSelected();
 		this.micSelected = this.oVDevicesService.getMicSelected();
-		this.resolrutionProperties = ["320x240","640x480"];
+		this.resolrutionProperties = ["320x240","640x480","1280x720"];
 	}
 
 	private setSessionName() {
