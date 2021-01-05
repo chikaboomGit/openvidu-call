@@ -168,7 +168,7 @@
 									<div class="two" fxFlex="80" fxLayoutAlign="center center">
 										<mat-form-field class="alternate-theme">
 											<mat-select
-												placeholder="해상도(참여자수 네트워크환경 고려하여 조절)"
+												placeholder="해상도(참여자수 및 네트워크환경을 고려하여 조절)"
 												[ngModel]="isVideoActive && camSelected ? openViduWebRTCService.getresolution() : 'None'"
 												(selectionChange)="onCameraResSelected($event)"
 											>
