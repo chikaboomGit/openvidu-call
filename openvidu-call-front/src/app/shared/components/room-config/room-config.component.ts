@@ -248,7 +248,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 			this.localUsersService.updateUsersNickname(this.externalConfig.getNickname());
 			return;
 		}
-		const nickname = this.storageSrv.get(Storage.USER_NICKNAME) || '99_변경필요';
+		const nickname = this.storageSrv.get(Storage.USER_NICKNAME) || '99_변경필요_' + Math.floor(Math.random() * 100);
 		this.nicknameFormControl.setValue(nickname);
 		this.localUsersService.updateUsersNickname(nickname);
 

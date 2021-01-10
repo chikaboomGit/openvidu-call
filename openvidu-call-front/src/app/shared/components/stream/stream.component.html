@@ -8,8 +8,7 @@
 	<div class="nickname" [class.fullscreen]="isFullscreen">
 		<div (click)="toggleNicknameForm()" class="nicknameContainer" selected *ngIf="!toggleNickname">
 			<span id="nickname">{{ this._user.nickname }}</span>
-			<span *ngIf="_user.local || (_user.streamManager && !_user.streamManager?.remote)"> (e)</span>
-			<div (click)="kickSession()" style="display: inline;"> <span>ⓧ</span></div> 																	 
+			<span *ngIf="_user.local || (_user.streamManager && !_user.streamManager?.remote)">ⓔ</span>			
 		</div>
 		<div *ngIf="toggleNickname && !this._user.streamManager?.remote" [class.fullscreen]="isFullscreen" id="dialogNickname">
 			<button mat-icon-button (click)="toggleNicknameForm()" id="closeButton">
@@ -79,7 +78,7 @@
 			<button mat-menu-item *ngIf="true" id="togcamButton" (click)="togcamSession()">
 				<mat-icon>videocam_off</mat-icon>
 				<span>Toggle Cam</span>
-			</button>							
+			</button>
 			<button mat-menu-item *ngIf="this._user.streamManager?.stream?.videoActive" id="fullscreenButton" (click)="toggleFullscreen()">
 				<mat-icon>{{ this.fullscreenIcon }}</mat-icon>
 				<span *ngIf="fullscreenIcon === videoFullscreenIconEnum.NORMAL">Exit fullscreen</span>

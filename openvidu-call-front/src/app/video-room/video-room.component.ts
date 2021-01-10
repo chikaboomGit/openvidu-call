@@ -101,12 +101,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.oVLayout.update();
 		this.checkSizeComponent();
 	}
-	
+
 	@HostListener('document:keyup', ['$event'])
 	handleKeyboardEvent(event: KeyboardEvent) {
 	  console.log(event);
 	  let x = event.keyCode;
-	  if ( !(<HTMLElement>event.target).id.includes("chatInput")){ 
+	  if ( !(<HTMLElement>event.target).id.includes("chatInput")){
 		  if (x == 32) {
 			  this.toggleMic();
 		  }
@@ -176,10 +176,10 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.subscribeToStreamPropertyChange();
 		this.subscribeToNicknameChanged();
 		this.chatService.setChatComponent(this.chatSidenav);
-    if (this.localUsersService.getWebcamUserName().includes('모니터')){
+    if (this.isFunctionUser()){
     	this.chatService.setcmdMode();
     }
-		this.chatService.subscribeToChat();    
+		this.chatService.subscribeToChat();
 		this.subscribeToChatComponent();
 		this.subscribeToReconnection();
 		await this.connectToSession();
@@ -187,7 +187,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		if (this.utilsSrv.isFirefox() && !this.localUsersService.hasWebcamVideoActive()) {
 			this.openViduWebRTCService.publishWebcamVideo(true);
 			this.openViduWebRTCService.publishWebcamVideo(false);
-		}    
+		}
     this.subscribeToSpeechhl();
 	}
 
@@ -211,7 +211,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		this.openViduWebRTCService.publishScreenAudio(!this.localUsersService.hasScreenAudioActive());
 	}
-	
+
 	async offCam() {
 		// Disabling webcam
 		if (this.localUsersService.areBothConnected()) {
@@ -225,8 +225,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     }
     this.oVLayout.update();
 	}
-	
-	
+
+
 
 	async toggleCam() {
 		const publishVideo = !this.localUsersService.hasWebcamVideoActive();
@@ -332,17 +332,18 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		this.compact = document.getElementById('room-container')?.offsetWidth <= 790;
 		this.sidenavMode = this.compact ? 'over' : 'side';
 	}
-	
+
 	onKickClicked(event: {element: HTMLElement; connectionId?: string}){
-		
-		this.session.signal({
-						   data: event.connectionId,
-						   type: 'kick'
-				   });
-    let remoteModel: UserModel = this.remoteUsersService.getRemoteUserByConnectionId(event.connectionId);
-		let msg:string = remoteModel.getNickname() + " banned by " + this.localUsersService.getWebcamUserName();
-		this.chatService.sendMessage(msg);
-    }
+		if (this.isFunctionUser()){
+			this.session.signal({
+							   data: event.connectionId,
+							   type: 'kick'
+					   });
+	    let remoteModel: UserModel = this.remoteUsersService.getRemoteUserByConnectionId(event.connectionId);
+			let msg:string = remoteModel.getNickname() + " banned by " + this.localUsersService.getWebcamUserName();
+			this.chatService.sendMessage(msg);
+		}
+  }
 
    onTogmicClicked(event: {element: HTMLElement; connectionId?: string}){
 		   this.session.signal({
@@ -362,6 +363,12 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		if (!!event.resetAll) {
 			this.resetAllBigElements();
 		}
+		if ( this.isFunctionUser() ){
+			this.session.signal({
+							data: JSON.stringify(event),
+							type: 'togzoom'
+			});
+		}
 
 		this.utilsSrv.toggleBigElementClass(element);
 
@@ -375,6 +382,19 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			}
 		}
 		this.oVLayout.update();
+	}
+
+
+
+	isFunctionUser(): boolean {
+		if (this.localUsersService.getWebcamUserName().includes('모니터')){
+    	return true;
+    }
+		else if (this.localUsersService.getWebcamUserName().includes('자료')){
+    	return true;
+    }
+		return false;
+
 	}
 
 	toolbarMicIconEnabled(): boolean {
@@ -526,7 +546,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			}
 		});
 	}
-        
+
   private subscribeToSpeechhl() {
     this.log.d('Subscribe to speech highlight', this.session);
     // Has been mandatory change the user zoom property here because of
@@ -610,44 +630,61 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           this.offCam();
       }
     });
+		this.session.on('signal:togzoom', (event: any) =>  {
+			const element = event.element;
+			if (!!event.resetAll) {
+				this.resetAllBigElements();
+			}
+
+			this.utilsSrv.toggleBigElementClass(element);
+
+			// Has been mandatory change the user zoom property here because of
+			// zoom icons and cannot handle publisherStartSpeaking event in other component
+			if (!!event?.connectionId) {
+				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
+					this.localUsersService.toggleZoom(event.connectionId);
+				} else {
+					this.remoteUsersService.toggleUserZoom(event.connectionId);
+				}
+			}
+			this.oVLayout.update();
+    });
     this.session.on('signal:cmd', (event: any) =>  {
       const connectionId = event.from.connectionId;
       const data = JSON.parse(event.data);
       const isMyOwnConnection = this.openViduWebRTCService.isMyOwnConnection(connectionId);
-	  
-	  
-	  if (data.message.indexOf('~') == 0){
-		let needcmd =["",""]; 
-		if( data.message.includes('\"')){
-			let tmpneedcmd = data.message.split(/"/);
-			needcmd[0] = tmpneedcmd[1];
-			needcmd[1] = tmpneedcmd[3];
-		}
-		else if( data.message.includes("\'")){
-			let tmpneedcmd = data.message.split(/'/);
-			needcmd[0] = tmpneedcmd[1];
-			needcmd[1] = tmpneedcmd[3];
-		}
-		else{
-			let tmpneedcmd = data.message.split(/ /);
-			needcmd[0] = tmpneedcmd[1];
-			needcmd[1] = tmpneedcmd[2];
-		}
-		
-		if (data.message.indexOf('~rename ') == 0){
-			if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
-			  this.onNicknameUpdate(needcmd[1]);
-			}
-		}
-		if (data.message.indexOf('~reconnect ') == 0){
-			if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
-				if (needcmd[1] === 'fast'){
-					this.storageSrv.set("fastReconnect","Y");
+		  if (data.message.indexOf('~') == 0){
+				let needcmd =["",""];
+				if( data.message.includes('\"')){
+					let tmpneedcmd = data.message.split(/"/);
+					needcmd[0] = tmpneedcmd[1];
+					needcmd[1] = tmpneedcmd[3];
 				}
-				window.location.reload();
-			}
-		}
-	  }
+				else if( data.message.includes("\'")){
+					let tmpneedcmd = data.message.split(/'/);
+					needcmd[0] = tmpneedcmd[1];
+					needcmd[1] = tmpneedcmd[3];
+				}
+				else{
+					let tmpneedcmd = data.message.split(/ /);
+					needcmd[0] = tmpneedcmd[1];
+					needcmd[1] = tmpneedcmd[2];
+				}
+
+				if (data.message.indexOf('~rename ') == 0){
+					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+					  this.onNicknameUpdate(needcmd[1]);
+					}
+				}
+				if (data.message.indexOf('~reconnect ') == 0){
+					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+						if (needcmd[1] === 'fast'){
+							this.storageSrv.set("fastReconnect","Y");
+						}
+						window.location.reload();
+					}
+				}
+		  }
     });
   }
 
