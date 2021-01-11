@@ -389,6 +389,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				this.resetAllBigElements();
 			}
 
+			this.utilsSrv.toggleBigElementClass(element);
+
 			// Has been mandatory change the user zoom property here because of
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
 			if (!!event?.connectionId) {
