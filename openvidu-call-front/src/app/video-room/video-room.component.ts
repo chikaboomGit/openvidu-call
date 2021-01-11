@@ -34,6 +34,7 @@ import { OpenViduLayoutService } from '../shared/services/layout/layout.service'
 import { TokenService } from '../shared/services/token/token.service';
 import { LocalUsersService } from '../shared/services/local-users/local-users.service';
 import { OpenViduWebrtcService } from '../shared/services/openvidu-webrtc/openvidu-webrtc.service';
+import { LayoutClass } from '../shared/types/layout-type';
 
 @Component({
 	selector: 'app-video-room',
