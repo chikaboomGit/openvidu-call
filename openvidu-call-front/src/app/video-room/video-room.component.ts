@@ -653,6 +653,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			console.log("signal:togzoom");
 			console.log(longevent);
 			const event = JSON.parse(longevent.data);
+			console.log(event);
 			//parentElement 로 치환
 			const element = document.getElementById(event.elementid).parentElement.parentElement;
 			if (!!event.resetAll) {
@@ -669,7 +670,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			// Has been mandatory change the user zoom property here because of
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
 			if (!!event?.connectionId) {
-				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
+				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {					
 					if ( this.localUsersService.isVideoSizeBig(event.connectionId) == event.zoomTrue ){
 							this.localUsersService.toggleZoom(event.connectionId);
 					}
