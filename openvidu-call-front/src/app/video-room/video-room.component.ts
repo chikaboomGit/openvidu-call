@@ -363,18 +363,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		if (!!event.resetAll) {
 			this.resetAllBigElements();
 		}
-		if ( this.isFunctionUser() ){
-			const data = {
-				elementid : event.element.getElementsByClassName("OT_widget-container")[0].id,
-				connectionId : event.connectionId,
-				resetAll : event.resetAll
-			}
-			this.session.signal({
-							data: JSON.stringify(data),
-							type: 'togzoom'
-			});
-		}
-
 		this.utilsSrv.toggleBigElementClass(element);
 
 		// Has been mandatory change the user zoom property here because of
@@ -387,6 +375,17 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			}
 		}
 		this.oVLayout.update();
+		if ( this.isFunctionUser() ){
+			const data = {
+				elementid : event.element.getElementsByClassName("OT_widget-container")[0].id,
+				connectionId : event.connectionId,
+				resetAll : event.resetAll
+			}
+			this.session.signal({
+							data: JSON.stringify(data),
+							type: 'togzoom'
+			});
+		}
 	}
 
 
