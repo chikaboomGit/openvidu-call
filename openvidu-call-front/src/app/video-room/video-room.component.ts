@@ -365,7 +365,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		if ( this.isFunctionUser() ){
 			const data = {
-				element : event.element,
+				elementid : event.element.getElementsByClassName("OT_widget-container")[0].id,
 				connectionId : event.connectionId,
 				resetAll : event.resetAll
 			}
@@ -637,7 +637,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     });
 		this.session.on('signal:togzoom', (longevent: any) =>  {
 			const event = JSON.parse(longevent.data);
-			const element = event.element;
+			//parentElement 로 치환
+			const element = document.getElementById(event.elementid).parentElement.parentElement;
 			if (!!event.resetAll) {
 				this.resetAllBigElements();
 			}
