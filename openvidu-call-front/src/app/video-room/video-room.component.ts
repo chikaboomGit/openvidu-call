@@ -364,8 +364,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			this.resetAllBigElements();
 		}
 		if ( this.isFunctionUser() ){
+			const data = {
+				element : element,
+				connectionId : connectionId,
+				resetAll : resetAll
+			}
 			this.session.signal({
-							data: JSON.stringify(event),
+							data: JSON.stringify(data),
 							type: 'togzoom'
 			});
 		}
