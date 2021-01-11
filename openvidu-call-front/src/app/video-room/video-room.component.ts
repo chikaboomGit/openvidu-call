@@ -359,22 +359,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     }
 
 	onToggleVideoSize(event: { element: HTMLElement; connectionId?: string; resetAll?: boolean }) {
-		const element = event.element;
-		if (!!event.resetAll) {
-			this.resetAllBigElements();
-		}
-		this.utilsSrv.toggleBigElementClass(element);
-
-		// Has been mandatory change the user zoom property here because of
-		// zoom icons and cannot handle publisherStartSpeaking event in other component
-		if (!!event?.connectionId) {
-			if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
-				this.localUsersService.toggleZoom(event.connectionId);
-			} else {
-				this.remoteUsersService.toggleUserZoom(event.connectionId);
-			}
-		}
-		this.oVLayout.update();
 		if ( this.isFunctionUser() ){
 			const data = {
 				elementid : event.element.getElementsByClassName("OT_widget-container")[0].id,
@@ -385,6 +369,25 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 							data: JSON.stringify(data),
 							type: 'togzoom'
 			});
+		}
+		else{
+			const element = event.element;
+			if (!!event.resetAll) {
+				this.resetAllBigElements();
+			}
+			this.utilsSrv.toggleBigElementClass(element);
+
+			// Has been mandatory change the user zoom property here because of
+			// zoom icons and cannot handle publisherStartSpeaking event in other component
+			if (!!event?.connectionId) {
+				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
+					this.localUsersService.toggleZoom(event.connectionId);
+				} else {
+					this.remoteUsersService.toggleUserZoom(event.connectionId);
+				}
+			}
+			// added
+			this.oVLayout.update();
 		}
 	}
 
