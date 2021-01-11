@@ -630,7 +630,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           this.offCam();
       }
     });
-		this.session.on('signal:togzoom', (event: any) =>  {
+		this.session.on('signal:togzoom', (stringedevent: any) =>  {
+			const event = JSON.parse(stringedevent.data);
 			const element = event.element;
 			if (!!event.resetAll) {
 				this.resetAllBigElements();
