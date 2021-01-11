@@ -363,7 +363,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		console.log("onToggleVideoSize");
 		console.log(event);
 		if ( this.isFunctionUser() ){
-			let chkCurrentzoomtrue = false;
+			var chkCurrentzoomtrue = false;
 			if (!!event?.connectionId) {
 				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
 					chkCurrentzoomtrue = this.localUsersService.isVideoSizeBig(event.connectionId);
@@ -670,7 +670,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			// Has been mandatory change the user zoom property here because of
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
 			if (!!event?.connectionId) {
-				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {					
+				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
 					if ( this.localUsersService.isVideoSizeBig(event.connectionId) == event.zoomTrue ){
 							this.localUsersService.toggleZoom(event.connectionId);
 					}

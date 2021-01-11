@@ -100,4 +100,8 @@ export class LocalUsersServiceMock {
 	resetUsersZoom() {}
 
 	toggleZoom(connectionId: string) {}
+
+	isVideoSizeBig(connectionId: string) : boolean {
+		return false;
+	}
 }
