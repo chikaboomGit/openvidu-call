@@ -365,9 +365,9 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		if ( this.isFunctionUser() ){
 			const data = {
-				element : element,
-				connectionId : connectionId,
-				resetAll : resetAll
+				element : event.element,
+				connectionId : event.connectionId,
+				resetAll : event.resetAll
 			}
 			this.session.signal({
 							data: JSON.stringify(data),
