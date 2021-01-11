@@ -365,7 +365,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		if ( this.isFunctionUser() ){
 			this.session.signal({
-							data: JSON.stringify(event),
+							data: event,
 							type: 'togzoom'
 			});
 		}
@@ -630,8 +630,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
           this.offCam();
       }
     });
-		this.session.on('signal:togzoom', (stringedevent: any) =>  {
-			const event = JSON.parse(stringedevent.data);
+		this.session.on('signal:togzoom', (longevent: any) =>  {
+			const event = longevent.data;
 			const element = event.element;
 			if (!!event.resetAll) {
 				this.resetAllBigElements();
