@@ -376,7 +376,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				elemntisBig : event.element?.className.includes(LayoutClass.BIG_ELEMENT) ,
 				connectionId : event.connectionId,
 				resetAll : event.resetAll,
-				zoomTrue : chkCurrentzoomtrue
+				zoomTrue : !!chkCurrentzoomtrue
 			}
 			this.session.signal({
 							data: JSON.stringify(data),
@@ -671,7 +671,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
 			if (!!event?.connectionId) {
 				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
-					if ( this.localUsersService.isVideoSizeBig(event.connectionId) == event.zoomTrue ){
+					if ( !!this.localUsersService.isVideoSizeBig(event.connectionId) == event.zoomTrue ){
 							this.localUsersService.toggleZoom(event.connectionId);
 					}
 				} else {
