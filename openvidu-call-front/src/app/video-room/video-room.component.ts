@@ -105,7 +105,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
 	@HostListener('document:keyup', ['$event'])
 	handleKeyboardEvent(event: KeyboardEvent) {
-	  console.log(event);
+	  //console.log(event);
 	  let x = event.keyCode;
 	  if ( !(<HTMLElement>event.target).id.includes("chatInput")){
 		  if (x == 32) {
@@ -360,6 +360,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     }
 
 	onToggleVideoSize(event: { element: HTMLElement; connectionId?: string; resetAll?: boolean }) {
+		console.log("onToggleVideoSize");
+		console.log(event);
 		if ( this.isFunctionUser() ){
 			let chkCurrentzoomtrue = false;
 			if (!!event?.connectionId) {
@@ -648,6 +650,8 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
       }
     });
 		this.session.on('signal:togzoom', (longevent: any) =>  {
+			console.log("signal:togzoom");
+			console.log(longevent);
 			const event = JSON.parse(longevent.data);
 			//parentElement 로 치환
 			const element = document.getElementById(event.elementid).parentElement.parentElement;
