@@ -159,4 +159,11 @@ export class LocalUsersService {
 		}
 		this.screenUser.setVideoSizeBig(!this.screenUser.isVideoSizeBig());
 	}
+
+	isVideoSizeBig(connectionId: string) : boolean {
+		if (this.webcamUser.getConnectionId() === connectionId) {
+			return this.webcamUser.isVideoSizeBig();
+		}
+		return this.screenUser.isVideoSizeBig();
+	}
 }

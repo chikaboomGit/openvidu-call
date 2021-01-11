@@ -360,10 +360,20 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 
 	onToggleVideoSize(event: { element: HTMLElement; connectionId?: string; resetAll?: boolean }) {
 		if ( this.isFunctionUser() ){
+			let chkCurrentzoomtrue = false;
+			if (!!event?.connectionId) {
+				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
+					chkCurrentzoomtrue = this.localUsersService.isVideoSizeBig(event.connectionId);
+				} else {
+					chkCurrentzoomtrue = this.remoteUsersService.getRemoteUserByConnectionId(event.connectionId).isVideoSizeBig();
+				}
+			}
 			const data = {
 				elementid : event.element.getElementsByClassName("OT_widget-container")[0].id,
+				elemntisBig : event.element?.className.includes(LayoutClass.BIG_ELEMENT) ,
 				connectionId : event.connectionId,
-				resetAll : event.resetAll
+				resetAll : event.resetAll,
+				zoomTrue : chkCurrentzoomtrue
 			}
 			this.session.signal({
 							data: JSON.stringify(data),
@@ -375,7 +385,6 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			if (!!event.resetAll) {
 				this.resetAllBigElements();
 			}
-			this.utilsSrv.toggleBigElementClass(element);
 
 			// Has been mandatory change the user zoom property here because of
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
@@ -645,15 +654,22 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				this.resetAllBigElements();
 			}
 
-			this.utilsSrv.toggleBigElementClass(element);
+			if ( element?.className.includes(LayoutClass.BIG_ELEMENT) && event.elemntisBig ){
+					this.utilsSrv.toggleBigElementClass(element);
+			}
+			else if ( element?.className.includes(LayoutClass.SMALL_ELEMENT) && !event.elemntisBig ){
+					this.utilsSrv.toggleBigElementClass(element);
+			}
 
 			// Has been mandatory change the user zoom property here because of
 			// zoom icons and cannot handle publisherStartSpeaking event in other component
 			if (!!event?.connectionId) {
 				if (this.openViduWebRTCService.isMyOwnConnection(event.connectionId)) {
-					this.localUsersService.toggleZoom(event.connectionId);
+					if ( this.localUsersService.isVideoSizeBig(event.connectionId) == event.zoomTrue ){
+							this.localUsersService.toggleZoom(event.connectionId);
+					}
 				} else {
-					this.remoteUsersService.toggleUserZoom(event.connectionId);
+					this.remoteUsersService.setUserZoom(event.connectionId, !event.zoomTrue );
 				}
 			}
 			this.oVLayout.update();
