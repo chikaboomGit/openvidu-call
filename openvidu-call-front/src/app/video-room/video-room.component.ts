@@ -663,7 +663,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			if ( element?.className.includes(LayoutClass.BIG_ELEMENT) && event.elemntisBig ){
 					this.utilsSrv.toggleBigElementClass(element);
 			}
-			else if ( element?.className.includes(LayoutClass.SMALL_ELEMENT) && !event.elemntisBig ){
+			else if ( !(element?.className.includes(LayoutClass.BIG_ELEMENT)) && !event.elemntisBig ){
 					this.utilsSrv.toggleBigElementClass(element);
 			}
 
