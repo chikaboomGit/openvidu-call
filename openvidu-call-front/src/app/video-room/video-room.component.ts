@@ -237,7 +237,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 			this.openViduWebRTCService.publishWebcamVideo(publishVideo);
 			this.localUsersService.disableWebcamUser();
 			this.openViduWebRTCService.unpublishWebcamPublisher();
-      this.oVLayout.update();
+      		this.oVLayout.update();
 			return;
 		}
 		// Enabling webcam
@@ -254,7 +254,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 		}
 		// Muting/unmuting webcam
 		this.openViduWebRTCService.publishWebcamVideo(publishVideo);
-    this.oVLayout.update();
+    	this.oVLayout.update();
 	}
 
 	async toggleScreenShare() {
@@ -707,6 +707,16 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				if (data.message.indexOf('~rename ') == 0){
 					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
 					  this.onNicknameUpdate(needcmd[1]);
+					}
+				}
+				if (data.message.indexOf('~offcam ') == 0){
+					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+					  this.offCam();
+					}
+				}
+				if (data.message.indexOf('~togglecam ') == 0){
+					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
+					  this.toggleCam();
 					}
 				}
 				if (data.message.indexOf('~reconnect ') == 0){
