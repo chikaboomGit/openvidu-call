@@ -716,7 +716,7 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
 				}
 				if (data.message.indexOf('~togglecam ') == 0){
 					if ( needcmd[0] == this.localUsersService.getWebcamUserName() ){
-					  this.toggleCam();
+					  this.toggleCam(); 
 					}
 				}
 				if (data.message.indexOf('~reconnect ') == 0){
