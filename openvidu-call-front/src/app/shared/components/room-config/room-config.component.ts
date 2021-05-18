@@ -283,7 +283,7 @@ export class RoomConfigComponent implements OnInit, OnDestroy {
 
       //mic off default
       // ecept 00_
-      if (!(testnick.includes('00_') || testnick.includes('2층_민원') || testnick.includes('9층_회의실')) ){
+      if (!(testnick.includes('00_') || testnick.includes('2층_민원') || testnick.includes('9층_회의실') || testnick.includes('수석부원장')) ){
         if (this.isAudioActive ){
           this.toggleMic();
         }
