@@ -579,9 +579,11 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
         const element = this.utilsSrv.getHTMLElementByClassName(elem, LayoutType.ROOT_CLASS);
         this.resetAllHlElements();
         element.classList.add('OT_borderhl');
-		
-		event.connection.stream.streamManager.audioActive = true;
-		
+
+		const micEle = element.querySelector('#statusMic');
+		if ( micEle !== null){
+			micEle.remove();
+		}
       }
     });
     this.session.on('publisherStopSpeaking', (event: PublisherSpeakingEvent) => {
