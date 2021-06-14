@@ -157,7 +157,9 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 		const publisher = this.localUsersSrv.getWebcamPublisher();
 		if (!!publisher) {
 			// publisher.off('streamAudioVolumeChange');
-			publisher.stream.disposeWebRtcPeer();
+			if (publisher.stream.getWebRtcPeer()) {
+				publisher.stream.disposeWebRtcPeer();
+			}
 			publisher.stream.disposeMediaStream();
 			this.localUsersSrv.setWebcamPublisher(publisher);
 		}
@@ -168,7 +170,9 @@ export class OpenViduWebrtcService implements IOpenViduWebRTC {
 
 		if (!!publisher) {
 			// publisher.off('streamAudioVolumeChange');
-			publisher.stream.disposeWebRtcPeer();
+			if (publisher.stream.getWebRtcPeer()) {
+				publisher.stream.disposeWebRtcPeer();
+			}
 			publisher.stream.disposeMediaStream();
 			this.localUsersSrv.setScreenPublisher(publisher);
 		}
