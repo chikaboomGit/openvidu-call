@@ -192,6 +192,13 @@ export class VideoRoomComponent implements OnInit, OnDestroy {
     this.subscribeToSpeechhl();
 	}
 
+	confirmleaveSession() {
+		this.log.d('Check Leaving session...');
+		if(confirm("회의를 종료하시겠습니까?")) {
+			this.leaveSession();
+		}
+	}
+
 	leaveSession() {
 		this.log.d('Leaving session...');
 		this.openViduWebRTCService.disconnect();
